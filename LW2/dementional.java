@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class dementional 
 {
+      static  Scanner scanner = new Scanner(System.in);
+    // task 27
     public static int sameStrings(int[][] mtx) 
     {
         ArrayList<Integer> list = new ArrayList<>();
@@ -30,7 +32,7 @@ public class dementional
         }
         return list.size();
     }
-
+    // task 41
     public static int[][] changeArray(int[][] mtx) 
     {
         int[][] answer = new int[mtx[0].length][mtx.length];
@@ -51,51 +53,58 @@ public class dementional
         }
         return answer;
     }
-
-    public static int[][] changeArrayWithMin(int[][] mtx) 
-     {
-        int[][] answer = new int[mtx[0].length+1][mtx.length+1];
+    // task 39 (randomly picked) 
+   public static int[][] changeArrayWithMin(int[][] mtx) {
+        int n = mtx.length;
         int min = mtx[0][0];
-        for (int[] mtx1 : mtx) 
-        {
-            int nmin = Arrays.stream(mtx1).min().getAsInt();
-            if (nmin < min) 
-            {
-                min = nmin;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mtx[i][j] < min) {
+                    min = mtx[i][j];
+                }
             }
         }
-        answer[mtx.length][mtx.length] = min;
-        for (int index = 0; index < mtx.length; index++) 
-        {
-            answer[mtx.length][index] = min + 1;
-            answer[index][mtx.length] = min + 1; 
+
+        
+        int[][] answer = new int[n + 1][n + 1];
+
+        for (int i = 0; i < n; i++) {
+            System.arraycopy(mtx[i], 0, answer[i], 0, n);
         }
+
+        for (int i = 0; i < n; i++) 
+        {
+            answer[i][n] = min + 1;
+            answer[n][i] = min + 1;
+        }
+
+        answer[n][n] = min;
         return answer;
     }
 
-    public static int[][] readArray() 
-    {
-         Scanner scanner = new Scanner(System.in);
-         System.out.print("Введите количество строк: ");
+
+  
+    public static int[][] readArray() {
+        System.out.print("Введите количество строк: ");
         int rows = scanner.nextInt();
 
         System.out.print("Введите количество столбцов: ");
         int cols = scanner.nextInt();
+        scanner.nextLine(); 
 
         int[][] array = new int[rows][cols];
 
-        for (int i = 0; i < rows; i++) 
-        {
-            for (int j = 0; j < cols; j++) 
-            {
-                System.out.print("Введите элемент [" + i + "][" + j + "]: ");
-                array[i][j] = scanner.nextInt();
+        System.out.println("Введите элементы массива построчно через пробел:");
+        for (int i = 0; i < rows; i++) {
+            System.out.print("Строка " + i + ": ");
+            String[] input = scanner.nextLine().split(" ");
+            for (int j = 0; j < cols; j++) {
+                array[i][j] = Integer.parseInt(input[j]);
             }
         }
-        scanner.close();
         return array;
     }
-
     public static void printArray(int[][] array) 
     {
         for (int[] ar : array) 
@@ -112,11 +121,15 @@ public class dementional
     {
        
         Scanner scanner = new Scanner(System.in);
-         // Ввод размеров массива
          boolean working = true;
+         String commnad = "";
         System.err.println("Commands: \nq - quit\n1 - first problem\n2 - second problem\n3 - third problem");
-         while (working) {
-             String commnad = scanner.next();
+        while (working) {
+               if (!scanner.hasNext()) {
+        System.out.println("No more input. Exiting...");
+      //  break;
+    }else
+              commnad = scanner.next();
              switch (commnad) 
              {
                  case "q":
