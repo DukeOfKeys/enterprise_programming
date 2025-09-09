@@ -1,25 +1,25 @@
 package LW1;
-import java.util.Scanner;
 
 public class Tailor {
-    public static double  ecsponent(int k, double x) {
-        double answer =1, current = 1;
-        int factorial =1;
-        for(int index = 1 ; current > Math.pow(0.1, k); index++){
-            factorial*= index;
-            current = Math.pow(x, (double) index) / factorial;
-            answer += current;
+    public static double ecsponent(int k, double x) {
+        double answer = 1;
+        double zi = 1;
+        for (int index = 1; zi > Math.pow(0.1, k); index++) {
+            zi = (zi * x) / index;
+            answer += zi;
         }
         return answer;
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int precision = scanner.nextInt();
-        double variable_x = scanner.nextDouble();
-        String format = "%." + precision + "f";
-        System.out.println("Calculation: "+String.format(format, ecsponent(precision, variable_x)) +"\nStandart: " + String.format(format, Math.exp(variable_x)));
-        scanner.close();
-
+    public static double sin(int k, double x) {
+        double new_x = x % (2 * Math.PI);
+         double answer = new_x;
+         double zi = new_x;
+         double multip = -(new_x) * (new_x);
+        for (int index = 3; (zi < 0 ? zi*(-1) : zi) > Math.pow(0.1, k); index += 2) {
+            zi = ((zi * multip) / (index*(index-1)));
+            answer += zi;   
+        }
+        return answer;
     }
 }
