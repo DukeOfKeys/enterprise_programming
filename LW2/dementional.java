@@ -33,7 +33,25 @@ public class dementional
                  case "2":
                  
                      MyMatrix.printArray(eng.changeArray());
-                break;
+                     break;
+                 case "fr": 
+                 {
+                     String filename = scanner.next();
+                     eng.readMatrixFromFile(filename);
+                 }
+                     break;
+                 case "fw": 
+                 {
+                     String filename = scanner.next();
+                     eng.printMatrixToFile(filename);
+                 }
+                     break;
+                 case "print":
+                     eng.printMatrix();
+                     break;
+                 case "read":
+                     eng.readMatrix(scanner);
+                     break;
             case "3":
                  MyMatrix.printArray(eng.changeArrayWithMin());
                 break;

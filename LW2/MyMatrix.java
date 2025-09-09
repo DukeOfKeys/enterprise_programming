@@ -94,7 +94,7 @@ public class MyMatrix {
 
         try {
             PrintWriter writer = new PrintWriter(new File(_filename));
-
+            writer.println(rows + " " + colums);
 
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < colums; j++) {
