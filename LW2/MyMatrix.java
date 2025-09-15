@@ -6,10 +6,13 @@ import java.io.PrintWriter;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class MyMatrix {
-    // task 27
+  
     int[][] matrix;
     int rows, colums;
 
@@ -122,54 +125,74 @@ public class MyMatrix {
             System.err.println("");
         }
     }
+// task 27
+/*
+ * 27. Две строки матрицы назовем похожими, если совпадают множества чисел, 
+ * встречающихся в этих строках. 
+ * Найти количество строк в максимальном множестве попарно непохожих строк заданной матрицы.
+ */
 
+public int sameStrings() {
+    Set<Set<Integer>> uniqueSets = new HashSet<>();
 
-    public  int sameStrings() 
-    {
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(0);
-        for (int index = 1; index < matrix.length; index++) {
-            boolean flag = true;
-            Arrays.sort(matrix[index]);
-            for (Integer number : list) {
-                if (Arrays.equals(matrix[index], matrix[number])) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                list.add(index);
-            }
+    for (int i = 0; i < matrix.length; i++) {
+        Set<Integer> rowSet = new HashSet<>();
+        for (int j = 0; j < matrix[i].length; j++) {
+            rowSet.add(matrix[i][j]);
         }
-        return list.size();
+        uniqueSets.add(rowSet);
     }
-    
-    // task 41
-    public  int[][] changeArray() 
-    {
-        int[][] answer = new int[matrix[0].length][matrix.length];
-        ArrayList<SimpleEntry<Integer, Integer>> list = new ArrayList<>();
-        for (int index = 0; index < matrix.length; index++) 
-        {
-            int charecter = 0;
-            for (int number = 0; number < matrix[0].length; number+=2) 
-                charecter += matrix[index][number] > 0 ? matrix[index][number] : 0;
-            list.add(new SimpleEntry<>(index, charecter));
+
+    return uniqueSets.size();
+}
+
+// task 41
+/*
+ * 41. Характеристикой строки целочисленной матрицы
+ * назовем сумму ее положительных четных элементов. 
+ * Переставляя строки заданной матрицы, расположить 
+ * их в соответствии с ростом характеристик.
+ */
+public MyMatrix changeArray() {
+    int[][] answer = new int[matrix.length][matrix[0].length];
+
+    ArrayList<SimpleEntry<Integer, Integer>> list = new ArrayList<>();
+
+    for (int i = 0; i < matrix.length; i++) {
+        int characteristic = 0;
+        for (int j = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j] > 0 && matrix[i][j] % 2 == 0) {
+                characteristic += matrix[i][j];
+            }
         }
-        list.sort((a, b) -> a.getValue().compareTo(b.getValue()));
-        int index = 0;
-        for (SimpleEntry<Integer, Integer> pair : list) 
-        {
-            System.arraycopy(matrix[pair.getKey()], 0, answer[index], 0, matrix[0].length);
-             index++;
-        }
-        return answer;
+        list.add(new SimpleEntry<>(i, characteristic));
     }
-    // task 39 (randomly picked) 
-   public  int[][] changeArrayWithMin() {
+
+    list.sort(Comparator.comparingInt(SimpleEntry::getValue));
+
+    int index = 0;
+    for (SimpleEntry<Integer, Integer> pair : list) {
+        System.arraycopy(matrix[pair.getKey()], 0, answer[index], 0, matrix[0].length);
+        index++;
+    }
+
+    return new MyMatrix(answer);
+}
+public void sortMatrixRowsInPlace() {
+    Arrays.sort(matrix, Comparator.comparingInt(row -> {
+        int characteristic = 0;
+        for (int value : row) {
+            if (value > 0 && value % 2 == 0) {
+                characteristic += value;
+            }
+        }
+        return characteristic;
+    }));
+}
+
+   public  MyMatrix changeArrayWithMin() {
         int n = matrix.length;
         int min = matrix[0][0];
-
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (matrix[i][j] < min) {
@@ -192,7 +215,7 @@ public class MyMatrix {
         }
 
         answer[n][n] = min;
-        return answer;
+        return  new MyMatrix(answer);
     }
 
 }

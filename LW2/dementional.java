@@ -32,7 +32,7 @@ public class dementional
                      break;
                  case "2":
                  
-                     MyMatrix.printArray(eng.changeArray());
+                     eng.changeArray().printMatrix();;
                      break;
                  case "fr": 
                  {
@@ -53,7 +53,7 @@ public class dementional
                      eng.readMatrix(scanner);
                      break;
             case "3":
-                 MyMatrix.printArray(eng.changeArrayWithMin());
+                eng.changeArrayWithMin().printMatrix();
                 break;
                  default:
                      break;
